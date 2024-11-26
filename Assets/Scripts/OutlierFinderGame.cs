@@ -31,23 +31,28 @@ public class OutlierFinderGame : MonoBehaviour
         Vector3 wallSize = wallRenderer.bounds.size;
         Vector3 wallCenter = wallRenderer.bounds.center;
 
-        // Determine grid start position (top-left corner on the front face)
-        float startX = wallCenter.x - (wallSize.x / 2) + (wallSize.x - (gridColumns - 1) * spacing) / 2;
-        float startY = wallCenter.y + (wallSize.y / 2) - (wallSize.y - (gridRows - 1) * spacing) / 2;
-        float startZ = wallCenter.z + (wallSize.z / 2); // Front face of the cube
+        // Calculate grid's start position (top-left corner)
+        float gridWidth = (gridColumns - 1) * spacing; // Total grid width
+        float gridHeight = (gridRows - 1) * spacing;   // Total grid height
 
+        // Starting positions to center grid on the -X face
+        float startX = wallCenter.x - (wallSize.x / 2) - 0.01f; // Slightly offset to the -X face
+        float startY = wallCenter.y + gridHeight / 2;          // Center vertically on Y-axis
+        float startZ = wallCenter.z;                           // Align along the wall's Z-axis
+
+        // Randomly choose the outlier position
         int outlierIndex = Random.Range(0, gridRows * gridColumns);
 
-        // Generate the grid
+        // Generate grid
         for (int row = 0; row < gridRows; row++)
         {
             for (int col = 0; col < gridColumns; col++)
             {
-                // Calculate position
+                // Calculate position for each card
                 Vector3 position = new Vector3(
-                    startX + col * spacing,
-                    startY - row * spacing,
-                    startZ
+                    startX,                     // Aligned to -X face
+                    startY - row * spacing,     // Vertical positioning along Y-axis
+                    startZ + col * spacing      // Horizontal positioning along Z-axis
                 );
 
                 // Instantiate prefab
@@ -61,13 +66,16 @@ public class OutlierFinderGame : MonoBehaviour
                     obj = Instantiate(identicalPrefab, position, Quaternion.identity);
                 }
 
-                // Make sure objects face outward
-                obj.transform.LookAt(obj.transform.position - Vector3.forward);
+                // Rotate cards to face outward (toward the camera/player)
+                obj.transform.rotation = Quaternion.Euler(0, 0, 0);
 
                 activeObjects.Add(obj);
             }
         }
     }
+
+
+
 
     public void OnObjectHit(GameObject obj)
     {
@@ -97,6 +105,22 @@ public class OutlierFinderGame : MonoBehaviour
                     OnObjectHit(hit.collider.gameObject);
                 }
             }
+        }
+    }
+
+   
+
+    // Method to handle when the outlier card is shot
+    public void OutlierFound(GameObject outlier)
+    {
+        if (outlier == outlierPrefab)
+        {
+            Debug.Log("Outlier card found! Resetting the game.");
+            
+        }
+        else
+        {
+            Debug.Log("Wrong card hit! Try again.");
         }
     }
 }

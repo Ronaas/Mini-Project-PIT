@@ -8,6 +8,7 @@ TagManager:
   - LeftHand
   - RightHand
   - Bullet
+  - Outlier
   layers:
   - Default
   - TransparentFX
