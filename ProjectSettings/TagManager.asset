@@ -8,6 +8,7 @@ TagManager:
   - LeftHand
   - RightHand
   - Bullet
+  - Basket
   layers:
   - Default
   - TransparentFX
