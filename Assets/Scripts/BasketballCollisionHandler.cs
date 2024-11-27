@@ -14,10 +14,10 @@ public class BasketballCollionHandler : MonoBehaviour
     }
 
     // This method is called when another collider enters this cup's collider
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
         // Check if the object that collided with the cup has the tag "Bullet"
-        if (collision.gameObject.CompareTag("Basket"))
+        if (other.gameObject.CompareTag("Basket"))
         {
 
             // Update the score in the ScoreManager
