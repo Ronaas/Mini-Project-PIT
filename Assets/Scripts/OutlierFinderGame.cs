@@ -81,34 +81,36 @@ public class OutlierFinderGame : MonoBehaviour
     {
         if (obj.CompareTag("Outlier"))
         {
-            // Outlier is hit: Remove it and reset the game
+            Debug.Log("Outlier hit! Destroying and resetting the game.");
+
+            // Destroy the outlier and reset the grid
             Destroy(obj);
             SetupGrid();
         }
         else
         {
-            // Identical object is hit: Optionally, provide feedback or ignore
-            Debug.Log("Wrong object!");
+            Debug.Log("Wrong object hit!");
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the bullet hits any object in the scene
         if (other.CompareTag("Bullet"))
         {
-            RaycastHit hit;
-            if (Physics.Raycast(other.transform.position, other.transform.forward, out hit))
+            // Check if the bullet directly hits an outlier
+            Collider bulletCollider = other;
+            if (bulletCollider != null)
             {
-                if (hit.collider != null)
-                {
-                    OnObjectHit(hit.collider.gameObject);
-                }
+                OnObjectHit(bulletCollider.gameObject);
             }
+
+            // Destroy the bullet after collision
+            Destroy(other.gameObject);
         }
     }
 
-   
+
+
 
     // Method to handle when the outlier card is shot
     public void OutlierFound(GameObject outlier)

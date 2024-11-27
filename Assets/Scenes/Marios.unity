@@ -4230,13 +4230,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fb8e69cacf9844c0aa8b2668b00234f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefabs:
-  - {fileID: 2218579116505564094, guid: e3d872400518347ae8daf3c7aa871560, type: 3}
-  - {fileID: 8394504452519687921, guid: 8598bd57b230e4fdfa1e41f07d52d800, type: 3}
-  wall: {fileID: 188075186}
-  gridWidth: 3
-  gridHeight: 3
-  cardSpacing: 1.5
+  identicalPrefab: {fileID: 2218579116505564094, guid: e3d872400518347ae8daf3c7aa871560,
+    type: 3}
+  outlierPrefab: {fileID: 8394504452519687921, guid: 8598bd57b230e4fdfa1e41f07d52d800,
+    type: 3}
+  wall: {fileID: 188075180}
+  gridRows: 3
+  gridColumns: 3
+  spacing: 1
 --- !u!4 &1790345379
 Transform:
   m_ObjectHideFlags: 0
