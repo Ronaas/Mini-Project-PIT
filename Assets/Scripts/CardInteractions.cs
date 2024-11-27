@@ -1,26 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-
-
-public class CardInteraction : MonoBehaviour
+public class CardInteractions : MonoBehaviour
 {
-  
-    private void OnCollisionEnter(Collision collision)
+    public GameObject outlierGameObject;
+
+    void OnCollisionEnter(Collision collision)
     {
-        // Check if the object collided with is a bullet
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            Debug.Log("Bullet hit card: " + gameObject.name);
+            // Notify the game manager (OutlierFinderGame) to reset
+            NotifyOutlierHit();
 
-            GameObject obj = GameObject.Find("OutlierGameManager"); // Replace "ObjectName" with the GameObject's name
-            OutlierFinderGame targetScript = obj.GetComponent<OutlierFinderGame>();
-            
+            // Destroy the outlier
+            Destroy (GameObject.FindWithTag("Card"));
+        }
+    }
 
-            // Optionally, destroy the bullet upon collision
-            Destroy(collision.gameObject);
+    void NotifyOutlierHit()
+    {
+        OutlierFinderGame outlierFinder = outlierGameObject.GetComponent<OutlierFinderGame>();
+
+        if (outlierFinder != null)
+        {
+            Debug.Log("Outlier hit! Notifying game manager to reset.");
+            outlierFinder.ResetGame();
+        }
+        else
+        {
+            Debug.LogError("OutlierFinderGame component not found on " + outlierGameObject.name);
         }
     }
 }
-

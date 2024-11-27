@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class OutlierFinderGame : MonoBehaviour
 {
@@ -17,14 +17,9 @@ public class OutlierFinderGame : MonoBehaviour
         SetupGrid();
     }
 
-    private void SetupGrid()
+    public void SetupGrid()
     {
-        // Clear existing objects
-        foreach (var obj in activeObjects)
-        {
-            Destroy(obj);
-        }
-        activeObjects.Clear();
+        ClearGrid(); // Clear any existing grid before setting up a new one
 
         // Get wall dimensions
         Renderer wallRenderer = wall.GetComponent<Renderer>();
@@ -60,69 +55,53 @@ public class OutlierFinderGame : MonoBehaviour
                 if (activeObjects.Count == outlierIndex)
                 {
                     obj = Instantiate(outlierPrefab, position, Quaternion.identity);
+                    obj.tag = "Outlier"; // Ensure correct tag for the outlier
                 }
                 else
                 {
                     obj = Instantiate(identicalPrefab, position, Quaternion.identity);
+                    obj.tag = "Identical"; // Optionally tag identical objects for better debugging
                 }
 
                 // Rotate cards to face outward (toward the camera/player)
                 obj.transform.rotation = Quaternion.Euler(0, 0, 0);
 
+                // Add the new object to the activeObjects list
                 activeObjects.Add(obj);
+                Debug.Log($"Added object to grid: {obj.name}");
             }
         }
     }
 
-
-
-
-    public void OnObjectHit(GameObject obj)
+    public void ClearGrid()
     {
-        if (obj.CompareTag("Outlier"))
+        // Destroy all objects in the activeObjects list
+        foreach (var obj in activeObjects)
         {
-            Debug.Log("Outlier hit! Destroying and resetting the game.");
-
-            // Destroy the outlier and reset the grid
-            Destroy(obj);
-            SetupGrid();
-        }
-        else
-        {
-            Debug.Log("Wrong object hit!");
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Bullet"))
-        {
-            // Check if the bullet directly hits an outlier
-            Collider bulletCollider = other;
-            if (bulletCollider != null)
+            if (obj != null)
             {
-                OnObjectHit(bulletCollider.gameObject);
+                Destroy(obj);
             }
-
-            // Destroy the bullet after collision
-            Destroy(other.gameObject);
         }
+        activeObjects.Clear();
+
+        // Fallback: Destroy any remaining objects by tag
+        foreach (var obj in GameObject.FindGameObjectsWithTag("Identical"))
+        {
+            Destroy(obj);
+        }
+
+        foreach (var obj in GameObject.FindGameObjectsWithTag("Outlier"))
+        {
+            Destroy(obj);
+        }
+
+        Debug.Log("Grid cleared.");
     }
-
-
-
-
-    // Method to handle when the outlier card is shot
-    public void OutlierFound(GameObject outlier)
+    public void ResetGame()
     {
-        if (outlier == outlierPrefab)
-        {
-            Debug.Log("Outlier card found! Resetting the game.");
-            
-        }
-        else
-        {
-            Debug.Log("Wrong card hit! Try again.");
-        }
+        Debug.Log("Resetting the game...");
+        ClearGrid();
+        SetupGrid();
     }
 }

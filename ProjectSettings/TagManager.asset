@@ -9,6 +9,8 @@ TagManager:
   - RightHand
   - Bullet
   - Outlier
+  - Card
+  - Identical
   layers:
   - Default
   - TransparentFX
