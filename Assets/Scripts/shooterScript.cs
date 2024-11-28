@@ -3,32 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class shooterScript : MonoBehaviour
-{
 
+public class ShooterScript : MonoBehaviour
+{
     public GameObject bullet;
     public Transform firepoint;
 
     private float bulletSpeed = 10;
-    // Start is called before the first frame update
+
     void Start()
     {
         XRGrabInteractable gunGrabable = GetComponent<XRGrabInteractable>();
-        gunGrabable.activated.AddListener(bangBang);
+        gunGrabable.activated.AddListener(BangBang);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // No changes needed in Update
     }
 
-    public void bangBang(ActivateEventArgs arg)
+    public void BangBang(ActivateEventArgs arg)
     {
         GameObject newBullet = Instantiate(bullet);
         newBullet.transform.position = firepoint.position;
         newBullet.GetComponent<Rigidbody>().velocity = firepoint.forward * bulletSpeed;
 
-        Destroy(newBullet, 7);
+        Destroy(newBullet, 7); // Destroy bullet after 7 seconds
     }
 }
