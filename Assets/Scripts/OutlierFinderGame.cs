@@ -33,7 +33,7 @@ public class OutlierFinderGame : MonoBehaviour
         // Starting positions to center grid on the -X face
         float startX = wallCenter.x - (wallSize.x / 2) - 0.01f; // Slightly offset to the -X face
         float startY = wallCenter.y + gridHeight / 2;          // Center vertically on Y-axis
-        float startZ = wallCenter.z;                           // Align along the wall's Z-axis
+        float startZ = wallCenter.z + -1;                           // Align along the wall's Z-axis
 
         // Randomly choose the outlier position
         int outlierIndex = Random.Range(0, gridRows * gridColumns);
