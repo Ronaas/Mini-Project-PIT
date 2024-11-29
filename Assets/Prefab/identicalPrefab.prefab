@@ -118,5 +118,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c81c42376cb4f12a68286a9ea17320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlierGameObject: {fileID: 2074898726549894969, guid: c60a88f877df6d14ba21f6ab74ea15ab,
+  outlierGameObject: {fileID: 8394504452519687921, guid: 8598bd57b230e4fdfa1e41f07d52d800,
     type: 3}
